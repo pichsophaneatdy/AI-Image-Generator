@@ -1,5 +1,5 @@
 import {useState} from "react";
-import { useNavigate } from "react-router-dom";
+import { useAsyncError, useNavigate } from "react-router-dom";
 import preview from "../assets/preview.png";
 import { getRandomPrompt } from "../utils";
 import FormField from "../components/FormField";
@@ -14,8 +14,30 @@ const CreatePost = () => {
     const [generatingImg, setGeneratingImg] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if(form.prompt && form.photo) {
+            setLoading(true);
+            try {
+                const response = await fetch("http://localhost:8080/api/v1/posts", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({...form})
+                });
+                console.log(response);
+                await response.json();
+                navigate("/");
+            } catch(error) {
+                alert(error);
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            alert("Please enter prompt and generate an image");
+        }
     }
     const handleChange = (e) => {
         setForm({...form, [e.target.name]:e.target.value})
@@ -24,9 +46,55 @@ const CreatePost = () => {
         const randomPrompt = getRandomPrompt(form.prompt);
         setForm({...form, prompt: randomPrompt})
     }
-    const generateImage = () => {
+    const generateImage = async () => {
+    if (form.prompt) {
+        try {
+            setGeneratingImg(true);
+            const response = await fetch("http://localhost:8080/api/v1/dalle", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                prompt: form.prompt,
+            }),
+            });
 
-    }
+            const data = await response.json();
+            setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+        } catch (err) {
+            alert(err);
+        } finally {
+            setGeneratingImg(false);
+        }
+        } else {
+        alert('Please provide proper prompt');
+        }
+    };
+    // const generateImage = async () => {
+    //     if(form.prompt) {
+    //         try {
+    //             setGeneratingImg(true);
+    //             const response = await fetch("http://localhost:8080/api/v1/dalle", {
+    //                 method: "POST",
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 body: JSON.stringify({prompt: form.prompt})
+    //             });
+    //             console.log(response);
+    //             const data = await response.json();
+    //             setForm({...form, photo: `data:image/jpeg;base64,${data.photo}`})
+    //         } catch(error) {
+    //             alert(error);
+    //             console.log(error);
+    //         } finally {
+    //             setGeneratingImg(false);
+    //         }
+    //     } else {
+    //         alert("Please enter the prompt")
+    //     }
+    // }
     return (
         <section className="max-w-7xl mx-auto">
             <div>
