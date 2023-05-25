@@ -29,3 +29,28 @@ AI Image Generator is a MERN full-stack application that can generate images bas
 - Download generated images
 - Simple and intuitive user interface
 
+## Set Up
+
+### Database Set Up
+
+- Set up a MongoDB account at this link: https://www.mongodb.com/)
+- Set up a new project and create a new cluster
+- Connect to your application => grab the url
+- In server folder, create a .env file in the root directory of the folder
+- Add MONGODB_URL = YOUR MONGODB URL (Don't forget to input your password)
+
+### Back-end Set up
+- Create an account on Openai API at this link https://openai.com/blog/openai-api
+- In the .env file, add OPENAI_API_KEY = YOUR KEY
+- Create an account on cloudinary at https://cloudinary.com/. Go to dashboard and you will find your cloud name, api key, and api secret
+- In the .env file, add:  
+  - CLOUNDINARY_CLOUD_NAME = YOUR CLOUD NAME
+  - CLOUNDINARY_API_KEY = YOUR API KEY
+  - CLOUNDINARY_API_SECRET = YOUR API SECRET
+- Start up your server and connect to your database by running npm start
+ 
+### Front-end Set up
+
+- npm install
+- npm start
+- In client folder, change the URL in your Home.jsx and CreatePost.jsx to "http://localhost:YOUR_PORT_NUMBER/PATH"
