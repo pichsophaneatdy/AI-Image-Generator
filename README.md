@@ -15,7 +15,6 @@ Generate unique images based on user prompts and share them on the community pag
 - Express.js
 - MongoDB
 - Cloudinary 
-- Nodemon
 - OpenAI API (for generating images with DALL-E)
 
 ## Features 
