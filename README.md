@@ -11,13 +11,13 @@ AI Image Generator is a MERN full-stack application that can generate images bas
 - React
 - JavaScript
 - Tailwind CSS
-- FileSaver.js
+- FileSaver.js (for saving generated file on the client side)
 
 ### Back-end
 - Node.js
 - Express.js
 - MongoDB
-- Cloudinary 
+- Cloudinary (for media management)
 - OpenAI API (for generating images with DALL-E)
 
 ## Features 
